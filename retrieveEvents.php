@@ -9,6 +9,7 @@ if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
         $userid=safeString($conn,$_POST['userId']);
+        $respjson['userId']=$userid;
         $sql="select eventName,eventId from events WHERE userId={$userid} AND eventDate>NOW()";
         if($result=$conn->query($sql)){
             $respjson["list"]=array();

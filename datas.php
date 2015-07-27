@@ -9,7 +9,7 @@ if($onServer) {
     $dbURL = "localhost";
     $dbName = "clublife";
     $dbusername = "root";
-    $dbpassword = "db";
+    $dbpassword = "";
 }
 $dbdetails = array(
     'url' => $dbURL,
@@ -23,7 +23,8 @@ $errorCode=array(
     1=>"Unprocessed",
     2=>"Insufficient Parameters",
     3=>"DB Connectivity error",
-    4=>"Query Error"
+    4=>"Query Error",
+    5=>"Autherntication Failure"
 );
 
 
