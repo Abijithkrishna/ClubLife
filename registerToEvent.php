@@ -1,6 +1,6 @@
 <?php
 require_once("praveenlib.php");
-$keys=array("userId","eventName","dateTime","ticketCount");
+$keys=array("userId","eventId","userName");
 $respjson= array(
     "status"=>"unprocessed",
     "errorCode"=>1
@@ -8,14 +8,15 @@ $respjson= array(
 if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
+        $eventId=safeString($conn,$_POST['eventId']);
         $userId=safeString($conn,$_POST['userId']);
-        $eventName=safeString($conn,$_POST['eventName']);
-        $dateTime=safeString($conn,$_POST['dateTime']);
-        $ticketCount=safeString($conn,$_POST['ticketCount']);
-        $sql="insert into events(userId,eventName,eventDate,ticketCount) values({$userId},'{$eventName}','{$dateTime}',{$ticketCount})";
+        $userName=safeString($conn,$_POST['userName']);
+        $sql="insert into eventregistration (userId,eventId,userName) VALUES ({$userId},{$eventId},'{$userName}')";
         if($result=$conn->query($sql)){
             $respjson["status"]="Success";
             $respjson["errorCode"]=0;
+
+
         }else{
             $respjson["status"]="SQL error";
             $respjson["SqlError"]=$conn->error;

@@ -1,19 +1,22 @@
 <?php
 require_once("praveenlib.php");
-$keys=array("userId","eventName","dateTime","ticketCount");
 $respjson= array(
     "status"=>"unprocessed",
     "errorCode"=>1
 );
-if(checkPOST($keys)){
+
     $conn=connectSQL();
     if($conn){
-        $userId=safeString($conn,$_POST['userId']);
-        $eventName=safeString($conn,$_POST['eventName']);
-        $dateTime=safeString($conn,$_POST['dateTime']);
-        $ticketCount=safeString($conn,$_POST['ticketCount']);
-        $sql="insert into events(userId,eventName,eventDate,ticketCount) values({$userId},'{$eventName}','{$dateTime}',{$ticketCount})";
+        $sql="select eventName,eventId from events WHERE  eventDate>NOW()";
         if($result=$conn->query($sql)){
+            $respjson["list"]=array();
+            while($row=$result->fetch_array()){
+                $entry=array(
+                    $row['eventId'],
+                    $row['eventName']
+                );
+                $respjson["list"][]=$entry;
+            }
             $respjson["status"]="Success";
             $respjson["errorCode"]=0;
         }else{
@@ -26,9 +29,6 @@ if(checkPOST($keys)){
         $respjson["SqlError"]=$conn->error;
         $respjson["errorCode"]=3;
     }
-}else{
-    $respjson["status"]="insufficient Data";
-    $respjson["errorCode"]=2;
-}
+
 
 echo json_encode($respjson);

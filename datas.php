@@ -2,8 +2,8 @@
 $onServer=false;
 if($onServer) {
     $dbURL = "mysql.freehostingnoads.net";
-    $dbName = "u149044957_track";
-    $dbusername = "u149044957_track";
+    $dbName = "u149044957_club";
+    $dbusername = "u149044957_club";
     $dbpassword = "database";
 }else{
     $dbURL = "localhost";
@@ -22,9 +22,10 @@ $dbdetails = array(
 $errorCode=array(
     1=>"Unprocessed",
     2=>"Insufficient Parameters",
-    3=>"DB Connectivity error",
+    3=>"DB Connectivity Error",
     4=>"Query Error",
-    5=>"Autherntication Failure"
+    5=>"Autherntication Failure",
+    6=>"Functional Error"
 );
 
 

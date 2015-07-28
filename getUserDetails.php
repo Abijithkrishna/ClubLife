@@ -1,6 +1,6 @@
 <?php
 require_once("praveenlib.php");
-$keys=array("userId","eventName","dateTime","ticketCount");
+$keys=array("userId");
 $respjson= array(
     "status"=>"unprocessed",
     "errorCode"=>1
@@ -9,13 +9,22 @@ if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
         $userId=safeString($conn,$_POST['userId']);
-        $eventName=safeString($conn,$_POST['eventName']);
-        $dateTime=safeString($conn,$_POST['dateTime']);
-        $ticketCount=safeString($conn,$_POST['ticketCount']);
-        $sql="insert into events(userId,eventName,eventDate,ticketCount) values({$userId},'{$eventName}','{$dateTime}',{$ticketCount})";
+        $sql="select userName,link from users WHERE id={$userId} limit 1";
         if($result=$conn->query($sql)){
-            $respjson["status"]="Success";
-            $respjson["errorCode"]=0;
+            $rowCount=$result->num_rows;
+            if($rowCount>0){
+                $row=$result->fetch_array();
+
+                $respjson['userName']=$row['userName'];
+                $respjson['FBLink']=$row['link'];
+                $respjson["status"]="success";
+                $respjson["errorCode"]=0;
+
+
+            }else{
+                $respjson["status"]="user Not Found";
+                $respjson["errorCode"]=6;
+            }
         }else{
             $respjson["status"]="SQL error";
             $respjson["SqlError"]=$conn->error;

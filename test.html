@@ -6,7 +6,7 @@
 </head>
 <body>
 <h5>Retrieve List of Owner</h5>
-<form action="retrieveEvents.php" method="post">
+<form action="getOwnerEvents.php" method="post">
     <input type="text" placeholder="ID" name="userId">
     <button type="submit">Retrieve</button>
 </form>
@@ -16,14 +16,49 @@
     <input type="text" placeholder="FBID" name="FBId">
     <input type="text" placeholder="userName" name="userName">
     <input type="text" placeholder="Link" name="link">
-    <button type="submit">Retrieve</button>
+    <button type="submit">Submit</button>
 </form>
 <br/>
 <h5>Owner Login check</h5>
 <form action="checkOwnerLogin.php" method="post">
     <input type="text" placeholder="username" name="username">
     <input type="text" placeholder="password" name="password">
-    <button type="submit">Retrieve</button>
+    <button type="submit">Submit</button>
+</form>
+<br/>
+<h5>Add Event</h5>
+<form action="addEvent.php" method="post">
+    <input type="text" placeholder="userId" name="userId">
+    <input type="text" placeholder="Name" name="eventName">
+    <input type="text" placeholder="Date" name="dateTime">
+    <input type="text" placeholder="Count" name="ticketCount">
+    <button type="submit">Submit</button>
+</form>
+<br/>
+<h5>Event details people</h5>
+<form action="getEventDetailsPeople.php" method="post">
+    <input type="text" placeholder="ID" name="eventId">
+    <button type="submit">Submit</button>
+</form>
+<br>
+<h5>Register Event</h5>
+<form action="registerToEvent.php" method="post">
+    <input type="text" placeholder="userId" name="userId">
+    <input type="text" placeholder="eventId" name="eventId">
+    <input type="text" placeholder="username" name="userName">
+    <button type="submit">Submit</button>
+</form>
+<br/>
+<h5>Event Registered people</h5>
+<form action="getRegisteredUser.php" method="post">
+    <input type="text" placeholder="ID" name="eventId">
+    <button type="submit">Submit</button>
+</form>
+<br/>
+<h5>User details</h5>
+<form action="getUserDetails.php" method="post">
+    <input type="text" placeholder="ID" name="userId">
+    <button type="submit">Submit</button>
 </form>
 </body>
 </html>
