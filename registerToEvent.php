@@ -11,17 +11,33 @@ if(checkPOST($keys)){
         $eventId=safeString($conn,$_POST['eventId']);
         $userId=safeString($conn,$_POST['userId']);
         $userName=safeString($conn,$_POST['userName']);
-        $sql="insert into eventregistration (userId,eventId,userName) VALUES ({$userId},{$eventId},'{$userName}')";
+        $sql="call takeTicket({$eventId});";
         if($result=$conn->query($sql)){
-            $respjson["status"]="Success";
-            $respjson["errorCode"]=0;
+            $row=$result->fetch_array();
+            if($row[0]==1){
+                $conn->close();
+                $conn=connectSQL();
+                $sql="insert into  eventregistration (userId,eventId,userName) VALUES ({$userId},{$eventId},'{$userName}')";
+                if($result=$conn->query($sql)){
+                    $respjson["status"]="Success";
+                    $respjson["errorCode"]=0;
 
 
+                }else{
+                    $respjson["status"]="SQL error";
+                    $respjson["SqlError"]=$conn->error;
+                    $respjson["errorCode"]=4;
+                }
+            }else{
+                $respjson["status"]="Ticket not avalilable";
+                $respjson["errorCode"]=6;
+            }
         }else{
-            $respjson["status"]="SQL error";
+            $respjson["status"]="SQL call error ";
             $respjson["SqlError"]=$conn->error;
             $respjson["errorCode"]=4;
         }
+
     }else{
         $respjson["status"]="SQL Connection error";
         $respjson["SqlError"]=$conn->error;

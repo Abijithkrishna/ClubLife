@@ -1,5 +1,5 @@
 <?php
-$onServer=false;
+$onServer=true;
 if($onServer) {
     $dbURL = "mysql.freehostingnoads.net";
     $dbName = "u149044957_club";

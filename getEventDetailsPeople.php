@@ -9,7 +9,7 @@ if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
         $eventId=safeString($conn,$_POST['eventId']);
-        $sql="select eventName,eventDate,userId from events WHERE eventId={$eventId} limit 1";
+        $sql="select eventName,eventDate,userId,ticketCount from events WHERE eventId={$eventId} limit 1";
         if($result=$conn->query($sql)){
             $rowCount=$result->num_rows;
             if($rowCount>0){
@@ -18,6 +18,8 @@ if(checkPOST($keys)){
                 $respjson['eventName']=$row['eventName'];
                 $respjson['eventDateTime']=$row['eventDate'];
                 $respjson['ownerId']=$row['userId'];
+                $respjson['ticketCount']=$row['ticketCount'];
+
                 $sql="select hotelName,address from owners where id={$row['userId']} limit 1";
                 if($result=$conn->query($sql)){
                     $rowCount=$result->num_rows;

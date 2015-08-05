@@ -44,7 +44,7 @@
 <h5>Register Event</h5>
 <form action="registerToEvent.php" method="post">
     <input type="text" placeholder="userId" name="userId">
-    <input type="text" placeholder="eventId" name="eventId">
+    <input type="text" placeholder="eventId " name="eventId">
     <input type="text" placeholder="username" name="userName">
     <button type="submit">Submit</button>
 </form>
@@ -58,6 +58,21 @@
 <h5>User details</h5>
 <form action="getUserDetails.php" method="post">
     <input type="text" placeholder="ID" name="userId">
+    <button type="submit">Submit</button>
+</form>
+
+<br/>
+<h5>Confirm Ticket</h5>
+<form action="confirmTicket.php" method="post">
+    <input type="text" placeholder="ID" name="ticketId">
+    <button type="submit">Submit</button>
+</form>
+
+
+<br/>
+<h5>Cancel Ticket</h5>
+<form action="cancelTicket.php" method="post">
+    <input type="text" placeholder="ID" name="ticketId">
     <button type="submit">Submit</button>
 </form>
 </body>
