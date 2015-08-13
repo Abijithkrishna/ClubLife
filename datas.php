@@ -1,9 +1,9 @@
 <?php
 $onServer=true;
 if($onServer) {
-    $dbURL = "mysql.freehostingnoads.net";
-    $dbName = "u149044957_club";
-    $dbusername = "u149044957_club";
+    $dbURL = "littleo.co.in";
+    $dbName = "clublife";
+    $dbusername = "praveen_clublife";
     $dbpassword = "database";
 }else{
     $dbURL = "localhost";
@@ -26,6 +26,11 @@ $errorCode=array(
     4=>"Query Error",
     5=>"Autherntication Failure",
     6=>"Functional Error"
+);
+
+$appdata=array(
+    'apiKey'=>'AIzaSyC4jLvGVORZveiBu3icMfYwy5EvWIdnJ_g',
+    'gcmURL'=>'https://android.googleapis.com/gcm/send'
 );
 
 

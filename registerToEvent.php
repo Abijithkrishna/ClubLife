@@ -19,9 +19,35 @@ if(checkPOST($keys)){
                 $conn=connectSQL();
                 $sql="insert into  eventregistration (userId,eventId,userName) VALUES ({$userId},{$eventId},'{$userName}')";
                 if($result=$conn->query($sql)){
-                    $respjson["status"]="Success";
-                    $respjson["errorCode"]=0;
+                    $sql="select userId,eventName from events where eventId=$eventId";
+                    if($result=$conn->query($sql)) {
+                        if($result->num_rows>0) {
+                            require_once('applib.php');
+                            $ownerId=$result->fetch_array()['userId'];
+                            $eventName=$result->fetch_array()['eventName'];
+                            $ids=array($ownerId);
+                            $tokens=getTokens($ids)['tokens'];
+                            $title="Event Registration";
+                            $message="$userName Registered for $eventName";
+                            $retjson=sendPushNotification($tokens,$title,$message);
 
+
+                            $respjson["status"] = "Success";
+                            $respjson["errorCode"] = 0;
+
+
+                        }else{
+                            $respjson["status"] = "Event Owner Id not found";
+                            $respjson["errorCode"] = 6;
+                        }
+
+
+
+                    }else{
+                        $respjson["status"]="SQL error";
+                        $respjson["SqlError"]=$conn->error;
+                        $respjson["errorCode"]=4;
+                    }
 
                 }else{
                     $respjson["status"]="SQL error";
