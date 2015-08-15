@@ -1,5 +1,6 @@
 <?php
 require_once("praveenlib.php");
+require_once('applib.php');
 $keys=array("ticketId");
 $respjson= array(
     "status"=>"unprocessed",
@@ -12,9 +13,28 @@ if(checkPOST($keys)){
         $sql="update eventregistration set status=1 where ticketId={$ticketId}";
         if($result=$conn->query($sql)){
 
+            $sql="select userToken from users where id in (select userId from eventregistration where ticketId=$ticketId)";
+            if($result=$conn->query($sql)){
+                if($result->num_rows>0){
+                    $row=$result->fetch_array();
 
-            $respjson["status"]="success";
-            $respjson["errorCode"]=0;
+                    $respjson['tokens']=array($row['0']);
+
+                    $message="";
+                    $retJson=sendPushNotification($respjson['tokens'],"Registration Confirmation",$message);
+                    $respjson['pushReturn']=$retJson;
+                    $respjson["status"]="success";
+                    $respjson["errorCode"]=0;
+                }else{
+                    $respjson["status"]="User Not Found";
+                    $respjson["errorCode"]=6;
+                }
+            }else{
+                $respjson["status"]="SQL error";
+                $respjson["SqlError"]=$conn->error;
+                $respjson["errorCode"]=4;
+            }
+
 
 
         }else{

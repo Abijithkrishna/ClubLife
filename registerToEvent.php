@@ -26,12 +26,14 @@ if(checkPOST($keys)){
                             $ownerId=$result->fetch_array()['userId'];
                             $eventName=$result->fetch_array()['eventName'];
                             $ids=array($ownerId);
-                            $tokens=getTokens($ids)['tokens'];
+                            $respjson['tokenJSON']=getOwnerTokens($ids);
+                            $tokens =$respjson['tokenJSON']['tokens'];
                             $title="Event Registration";
                             $message="$userName Registered for $eventName";
                             $retjson=sendPushNotification($tokens,$title,$message);
 
 
+                            $respjson["notificationJSON"]=$retjson;
                             $respjson["status"] = "Success";
                             $respjson["errorCode"] = 0;
 

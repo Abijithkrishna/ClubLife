@@ -45,7 +45,48 @@ function sendPushNotification($tokens,$title,$message){
     return $returnData;
 }
 
-function getTokens($ids){
+function getOwnerTokens($ids){
+    require_once('praveenlib.php');
+    $returnData=array(
+        'error'=>0
+    );
+    if(count($ids)==0){
+        $returnData['error']=6;
+        $returnData['status']="userid required";
+        return $returnData;
+    }
+
+
+
+    $conn=connectSQL();
+    if($conn){
+        $idString="".$ids[0];
+        for($i=1;$i<count($ids);$i++){
+            $idString.=",".$ids[$i];
+        }
+        $query="select ownerToken from owners where id in ($idString)";
+        if($result=$conn->query($query)){
+            $returnData['tokens']=array();
+            while($row=$result->fetch_array()){
+                $returnData['tokens'][]=$row[0];
+            }
+        }else{
+            $returnData["status"]="SQL error";
+            $returnData["SqlError"]=$conn->error;
+            $returnData["errorCode"]=4;
+        }
+    }else{
+        $returnData["status"]="SQL Connection error";
+        $returnData["SqlError"]=$conn->error;
+        $returnData["errorCode"]=3;
+
+    }
+
+    return $returnData;
+
+}
+
+function getUserTokens($ids){
     require_once('praveenlib.php');
     $returnData=array(
         'error'=>0
