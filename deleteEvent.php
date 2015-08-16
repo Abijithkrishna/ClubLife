@@ -1,7 +1,7 @@
 <?php
 require_once("praveenlib.php");
 require_once("applib.php");
-$keys=array("userId","eventName","dateTime","ticketCount","lat","lon");
+$keys=array("eventId");
 $respjson= array(
     "status"=>"unprocessed",
     "errorCode"=>1
@@ -9,22 +9,18 @@ $respjson= array(
 if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
-        $userId=safeString($conn,$_POST['userId']);
-        $eventName=safeString($conn,$_POST['eventName']);
-        $dateTime=safeString($conn,$_POST['dateTime']);
-        $ticketCount=safeString($conn,$_POST['ticketCount']);
-        $latitude=safeString($conn,$_POST['lat']);
-        $longitude=safeString($conn,$_POST['lon']);
-        $sql="insert into events(userId,eventName,eventDate,ticketCount,latitude,longitude) values({$userId},'{$eventName}','{$dateTime}',{$ticketCount},$latitude,$longitude)";
+        $eventId=safeString($conn,$_POST['eventId']);
+
+        $sql="delete from events  where eventId=$eventId";
         if($result=$conn->query($sql)){
 
-            $sql="select userToken from users";
+            $sql="select userToken from users where id in (select userId from eventregistration where eventId=$eventId)";
             if($result=$conn->query($sql)){
                 $ids=array();
                 while($row=$result->fetch_array()){
                     $ids[]=$row[0];
                 }
-                $retJSON=sendPushNotification($ids,"New Event",$eventName." is open for registration");
+                $retJSON=sendPushNotification($ids,"Event Removed",$eventName." is Removed");
                 $respjson["pushReturn"]=$retJSON;
                 $respjson["status"]="Success";
                 $respjson["errorCode"]=0;
@@ -37,6 +33,7 @@ if(checkPOST($keys)){
         }else{
             $respjson["status"]="SQL error";
             $respjson["SqlError"]=$conn->error;
+            $respjson['sql']=$sql;
             $respjson["errorCode"]=4;
         }
     }else{

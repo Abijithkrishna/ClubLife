@@ -65,6 +65,7 @@
 <h5>Confirm Ticket</h5>
 <form action="confirmTicket.php" method="post">
     <input type="text" placeholder="ID" name="ticketId">
+    <input type="text" placeholder="eventName" name="eventName">
     <button type="submit">Submit</button>
 </form>
 
@@ -73,6 +74,7 @@
 <h5>Cancel Ticket</h5>
 <form action="cancelTicket.php" method="post">
     <input type="text" placeholder="ID" name="ticketId">
+    <input type="text" placeholder="eventName" name="eventName">
     <button type="submit">Submit</button>
 </form>
 
@@ -85,5 +87,41 @@
     <button type="submit">Submit</button>
 </form>
 
+<br/>
+<h5>edit Event</h5>
+<form action="updateEventDetails.php" method="post">
+    <input type="text" placeholder="eventId" name="eventId">
+    <input type="text" placeholder="eventName" name="eventName">
+    <input type="text" placeholder="date" name="dateTime">
+    <input type="text" placeholder="ticketCount" name="ticketCount">
+    <button type="submit">Submit</button>
+</form>
+
+<br/>
+<h5>edit Event</h5>
+<form action="updateEventDetails.php" method="post">
+    <input type="text" placeholder="eventId" name="eventId">
+    <input type="text" placeholder="eventName" name="eventName">
+    <input type="text" placeholder="date" name="dateTime">
+    <input type="text" placeholder="ticketCount" name="ticketCount">
+    <button type="submit">Submit</button>
+</form>
+
+<br/>
+<h5>Download excel</h5>
+
+<form action="downloadExcel.php" method="post">
+    <input name="eventId" type="text"/>
+    <button type="submit">Donwload</button>
+</form>
+
+<br/>
+<h5>Close Events</h5>
+
+<form action="getClosestEvents.php" method="post">
+    <input type="text" name="lat"/>
+    <input name="lon" type="text"/>
+    <button typeof="submit">Submit</button>
+</form>
 </body>
 </html>

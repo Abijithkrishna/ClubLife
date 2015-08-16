@@ -1,7 +1,7 @@
 <?php
 require_once("praveenlib.php");
 require_once('applib.php');
-$keys=array("ticketId");
+$keys=array("ticketId","eventName");
 $respjson= array(
     "status"=>"unprocessed",
     "errorCode"=>1
@@ -10,6 +10,7 @@ if(checkPOST($keys)){
     $conn=connectSQL();
     if($conn){
         $ticketId=safeString($conn,$_POST['ticketId']);
+        $eventName=safeString($conn,$_POST['eventName']);
         $sql="update eventregistration set status=1 where ticketId={$ticketId}";
         if($result=$conn->query($sql)){
 
@@ -20,8 +21,8 @@ if(checkPOST($keys)){
 
                     $respjson['tokens']=array($row['0']);
 
-                    $message="";
-                    $retJson=sendPushNotification($respjson['tokens'],"Registration Confirmation",$message);
+                    $message=$eventName." ticked Confirmed";
+                    $retJson=sendPushNotification($respjson['tokens'],"Ticket Confirmation",$message);
                     $respjson['pushReturn']=$retJson;
                     $respjson["status"]="success";
                     $respjson["errorCode"]=0;
